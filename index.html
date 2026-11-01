@@ -163,7 +163,7 @@ html[data-theme="light"] #themeToggle{background:#f0f0f0;color:#181818}
 <div class="brand custom-wordmark" onclick="show('home')">WJS</div>
 <nav class="nav">
 <button onclick="show('home')">홈</button>
-<button onclick="show('library')">악보 보기</button>
+<button onclick="show('library')">악보방</button>
 <button onclick="openYoutube()">YouTube ↗</button>
 <button id="themeToggle" type="button" onclick="toggleTheme()" aria-label="라이트 / 다크 모드 전환" title="라이트 / 다크 모드">☾</button>
 </nav>
@@ -184,7 +184,7 @@ html[data-theme="light"] #themeToggle{background:#f0f0f0;color:#181818}
 </section>
 <section id="library" class="hidden section">
 <button class="back" onclick="show('home')">← 메인으로</button>
-<h1 class="page-title">악보 도서관</h1>
+<h1 class="page-title">악보방</h1>
 <p class="sub">카테고리를 선택하거나 곡명을 검색해 보세요.</p>
 <input class="search" id="search" placeholder="곡명 / 작곡가 검색" oninput="renderCategories()">
 <div id="categories" class="categories">
