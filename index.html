@@ -177,12 +177,14 @@ html[data-theme="light"] #themeToggle{background:#f0f0f0;color:#181818}
 #home .library-scene:before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,#110e0c8c 0%,transparent 29%,transparent 65%,#130e0b8a 100%);pointer-events:none}
 .library-3d{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;outline:none}
 @media(max-width:700px){#home .library-scene{height:480px;background-size:auto 100%;background-position:center}}
-.nav .social-link{width:42px;height:42px;min-width:42px;aspect-ratio:1;display:grid;place-items:center;border-radius:50%;background:#1d1e22;color:#fff;text-decoration:none}
-html[data-theme="light"] .nav .social-link{background:#f0f0f0;color:#181818}
-.nav .social-link svg{width:23px;height:23px;display:block}
+.nav{gap:6px}
+.nav .social-link{width:34px;height:34px;min-width:34px;aspect-ratio:1;display:grid;place-items:center;background:transparent;color:inherit;text-decoration:none}
+.nav .social-link svg{width:30px;height:30px;display:block}
 .nav .social-link:hover{transform:translateY(-2px)}
 .nav .social-link:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
-@media(max-width:750px){.nav .social-link{width:34px;height:34px;min-width:34px}.nav .social-link svg{width:20px;height:20px}}
+#themeToggle{margin-left:2px}
+img{-webkit-user-drag:none;-webkit-touch-callout:none;user-select:none;-webkit-user-select:none}
+@media(max-width:750px){.nav{gap:4px}.nav .social-link{width:30px;height:30px;min-width:30px}.nav .social-link svg{width:27px;height:27px}}
 
 </style>
 </head>
@@ -389,6 +391,8 @@ renderCategories();
 function applyTheme(mode){document.documentElement.setAttribute('data-theme',mode);document.getElementById('themeToggle').textContent=mode==='dark'?'☾':'☀';try{localStorage.setItem('piano-library-theme',mode)}catch(e){}}
 function toggleTheme(){applyTheme(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark')}
 try{applyTheme(localStorage.getItem('piano-library-theme')||'dark')}catch(e){applyTheme('light')}
+document.addEventListener('contextmenu',event=>event.preventDefault());
+document.addEventListener('dragstart',event=>{if(event.target instanceof HTMLImageElement)event.preventDefault()});
 </script>
 <script type="module" src="assets/library-visitor-3d.js"></script>
 </body>
