@@ -177,6 +177,12 @@ html[data-theme="light"] #themeToggle{background:#f0f0f0;color:#181818}
 #home .library-scene:before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,#110e0c8c 0%,transparent 29%,transparent 65%,#130e0b8a 100%);pointer-events:none}
 .library-3d{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;outline:none}
 @media(max-width:700px){#home .library-scene{height:480px;background-size:auto 100%;background-position:center}}
+.nav .social-link{width:42px;height:42px;min-width:42px;aspect-ratio:1;display:grid;place-items:center;border-radius:50%;background:#1d1e22;color:#fff;text-decoration:none}
+html[data-theme="light"] .nav .social-link{background:#f0f0f0;color:#181818}
+.nav .social-link svg{width:23px;height:23px;display:block}
+.nav .social-link:hover{transform:translateY(-2px)}
+.nav .social-link:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+@media(max-width:750px){.nav .social-link{width:34px;height:34px;min-width:34px}.nav .social-link svg{width:20px;height:20px}}
 
 </style>
 </head>
@@ -187,7 +193,12 @@ html[data-theme="light"] #themeToggle{background:#f0f0f0;color:#181818}
 <nav class="nav">
 <button onclick="show('home')">홈</button>
 <button onclick="show('library')">악보방</button>
-<button onclick="openYoutube()">YouTube ↗</button>
+<a class="social-link" id="youtubeLink" href="https://www.youtube.com/@%EC%9C%84%EC%A2%85%EC%86%A1/videos" target="_blank" rel="noopener noreferrer" aria-label="YouTube 채널 열기" title="YouTube">
+ <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="1" y="4" width="22" height="16" rx="5" fill="#ff0033"/><path d="m10 8 6 4-6 4z" fill="#fff"/></svg>
+</a>
+<a class="social-link" id="instagramLinkNav" href="https://www.instagram.com/96.wj_song/" target="_blank" rel="noopener noreferrer" aria-label="Instagram 프로필 열기" title="Instagram">
+ <svg viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="instagramGradient" x1="0" x2="1" y1="1" y2="0"><stop stop-color="#ffbf45"/><stop offset=".5" stop-color="#e44070"/><stop offset="1" stop-color="#7843c6"/></linearGradient></defs><rect x="1" y="1" width="22" height="22" rx="6" fill="url(#instagramGradient)"/><rect x="5.5" y="5.5" width="13" height="13" rx="4" fill="none" stroke="#fff" stroke-width="1.8"/><circle cx="12" cy="12" r="3.1" fill="none" stroke="#fff" stroke-width="1.8"/><circle cx="17.2" cy="6.8" r="1.15" fill="#fff"/></svg>
+</a>
 <button id="themeToggle" type="button" onclick="toggleTheme()" aria-label="라이트 / 다크 모드 전환" title="라이트 / 다크 모드">☾</button>
 </nav>
 </div>
@@ -312,7 +323,6 @@ window.addEventListener("DOMContentLoaded",()=>{const cover=document.getElementB
 let selectedCategory='치이카와 [ちいかわ]',selectedScore=null,page=1,scale=1;
 const sections=['home','library','seriesPage','categoryPage','viewer'];
 function show(id){sections.forEach(s=>document.getElementById(s).classList.toggle('hidden',s!==id));if(id==='library')renderCategories();window.scrollTo(0,0)}
-function openYoutube(){alert('유튜브 채널 주소를 받으면 이 버튼에 연결합니다.')}
 function renderCategories(){let q=document.getElementById('search').value.trim().toLowerCase();let box=document.getElementById('categories'),results=document.getElementById('searchResults');box.innerHTML='';results.innerHTML='';if(q){box.classList.add('hidden');let found=catalog.filter(s=>(s.title+' '+s.composer+' '+s.category).toLowerCase().includes(q));results.innerHTML='<h2>검색 결과</h2>';let list=document.createElement('div');list.className='list score-grid';found.forEach(s=>list.appendChild(scoreButton(s)));results.appendChild(list);if(!found.length)results.innerHTML+='<div class="empty">검색 결과가 없습니다.</div>';return}box.classList.remove('hidden');categoryInfo.forEach(([name,ico,en])=>{let b=document.createElement('button');b.className='category';b.innerHTML=`<span class="ico">${ico}</span>
 <strong>${name}</strong>
 <span>${en} · ${catalog.filter(s=>s.category===name).length}곡</span>`;b.onclick=()=>show('seriesPage');box.appendChild(b)})}
