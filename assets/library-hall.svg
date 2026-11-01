@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 800" role="img" aria-label="끝없이 이어지는 따뜻한 도서관">
+<defs>
+ <linearGradient id="walls" x2="0" y2="1"><stop stop-color="#3b261d"/><stop offset="1" stop-color="#8e6647"/></linearGradient>
+ <linearGradient id="floor" x2="0" y2="1"><stop stop-color="#79583e"/><stop offset="1" stop-color="#30251f"/></linearGradient>
+ <linearGradient id="light" x2="0" y2="1"><stop stop-color="#fff6c9" stop-opacity=".48"/><stop offset="1" stop-color="#fff6c9" stop-opacity="0"/></linearGradient>
+ <radialGradient id="glow"><stop stop-color="#ffe7aa" stop-opacity=".7"/><stop offset="1" stop-color="#ffe7aa" stop-opacity="0"/></radialGradient>
+ <pattern id="books" width="105" height="94" patternUnits="userSpaceOnUse">
+  <rect width="105" height="94" fill="#291e1b"/>
+  <path d="M0 81H105" stroke="#b48553" stroke-width="9"/>
+  <path d="M5 8v68h10V6H5m13 3v67h14V13H18m17-8v71h9V4h-9m13 13v59h14V13H48m17-7v70h11V8H65m15-3v71h10V13H80m13-6v69h8V6h-8" fill="#8a4d37"/>
+  <path d="M18 9v67h14V13H18m30 4v59h14V13H48m32-8v71h10V13H80" fill="#526f68"/>
+  <path d="M7 30h7m21 18h8m23-19h9m20 20h6" stroke="#e7c98c" stroke-width="2"/>
+  <path d="M0 87H105" stroke="#4b2d20" stroke-width="5"/>
+ </pattern>
+ <pattern id="planks" width="115" height="45" patternUnits="userSpaceOnUse"><rect width="115" height="45" fill="none"/><path d="M0 44H115M114 0V44" stroke="#201b19" stroke-opacity=".48" stroke-width="3"/></pattern>
+ <clipPath id="left"><path d="M0 26 540 172 540 515 0 682Z"/></clipPath>
+ <clipPath id="right"><path d="M1400 26 860 172 860 515 1400 682Z"/></clipPath>
+</defs>
+<rect width="1400" height="800" fill="#1f1b1a"/>
+<path d="M0 0H1400L860 171H540Z" fill="#38251d"/>
+<path d="M0 26 540 172 540 515 0 682Z" fill="url(#walls)"/>
+<path d="M1400 26 860 172 860 515 1400 682Z" fill="url(#walls)"/>
+<path d="M540 170H860V515H540Z" fill="#5d422f"/>
+<path d="M0 682 540 515H860L1400 682V800H0Z" fill="url(#floor)"/>
+<path d="M0 682 540 515H860L1400 682V800H0Z" fill="url(#planks)"/>
+<g clip-path="url(#left)"><rect x="0" y="28" width="540" height="650" fill="url(#books)"/><path d="M80 0V700M280 0V700M460 0V700" stroke="#a7794e" stroke-width="22"/><path d="M0 121 540 236M0 313 540 339M0 501 540 442M0 680 540 514" stroke="#c2925c" stroke-width="23"/><path d="M0 142 540 250M0 331 540 355M0 521 540 458" stroke="#2b1d17" stroke-width="10"/></g>
+<g clip-path="url(#right)"><rect x="860" y="28" width="540" height="650" fill="url(#books)"/><path d="M1320 0V700M1120 0V700M940 0V700" stroke="#a7794e" stroke-width="22"/><path d="M1400 121 860 236M1400 313 860 339M1400 501 860 442M1400 680 860 514" stroke="#c2925c" stroke-width="23"/><path d="M1400 142 860 250M1400 331 860 355M1400 521 860 458" stroke="#2b1d17" stroke-width="10"/></g>
+<path d="M540 171H860M540 282H860M540 393H860M540 505H860" stroke="#b88858" stroke-width="13"/>
+<rect x="547" y="172" width="306" height="336" fill="url(#books)" opacity=".92"/>
+<path d="M620 512V333a80 80 0 0 1 160 0v179" fill="#241d1b" stroke="#c49a61" stroke-width="17"/>
+<path d="M637 510V335a63 63 0 0 1 126 0v175" fill="#a78861" opacity=".26"/>
+<path d="M0 0 540 172M1400 0 860 172M250 0 610 172M1150 0 790 172M700 0V170" stroke="#bd8b56" stroke-width="15" opacity=".55"/>
+<path d="M0 672 540 510H860L1400 672" fill="none" stroke="#d7ae77" stroke-width="11"/>
+<path d="M310 800 595 515M1090 800 805 515M700 800V515" stroke="#191918" stroke-opacity=".5" stroke-width="5"/>
+<path d="M0 746H1400M160 644H1240M350 578H1050" stroke="#1f1b1a" stroke-opacity=".38" stroke-width="4"/>
+<ellipse cx="700" cy="195" rx="360" ry="310" fill="url(#glow)"/>
+<path d="M640 60H760L810 515H590Z" fill="url(#light)" opacity=".6"/>
+<ellipse cx="700" cy="70" rx="55" ry="17" fill="#e9c790" opacity=".65"/>
+<path d="M700 0V67" stroke="#d8ae74" stroke-width="5"/>
+<path d="M0 0H1400V30H0Z" fill="#1c1717" opacity=".7"/>
+</svg>

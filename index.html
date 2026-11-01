@@ -155,6 +155,29 @@ html[data-theme="light"] #themeToggle{background:#f0f0f0;color:#181818}
 .custom-wordmark{font-family:"Comic Sans MS","Segoe Print","Bradley Hand",cursive;font-size:22px;font-weight:900;font-style:italic;letter-spacing:-1px;transform:rotate(-2deg);text-shadow:.5px .5px 0 currentColor}
 #home .home-piano-area{margin-top:30px}
 @media(max-width:700px){.empty-feature-frame{margin-top:24px}}
+/* Grand library and one persistent, faceless animal visitor per browser */
+#home .library-scene{position:relative;width:min(1440px,calc(100vw - 32px));height:clamp(420px,57vw,760px);margin:26px 0 0 50%;transform:translateX(-50%);overflow:hidden;border:1px solid #3a2b25;border-radius:12px;background:#3b2b24 url('assets/library-hall.svg') center / cover no-repeat;color:#fff;isolation:isolate}
+#home .library-scene:before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,#110e0c8c 0%,transparent 29%,transparent 65%,#130e0b8a 100%);pointer-events:none}
+.library-scene-copy{position:absolute;z-index:2;top:5%;left:5%;right:5%;text-align:center;text-shadow:0 2px 12px #1e120e}
+.library-scene-copy .eyebrow{color:#e6d0aa;font-weight:700}.library-scene-copy h1{font-size:clamp(28px,4vw,58px);margin:8px 0 6px;color:#fff}.library-scene-copy p{font-size:clamp(12px,1.4vw,16px);color:#f5e7d4;margin:0}
+.library-scene-action{position:absolute;z-index:3;left:50%;bottom:4%;transform:translateX(-50%);white-space:nowrap;border:1px solid #e2c69b;background:#f6e7c9;color:#3e2b21;border-radius:999px;padding:11px 22px;font-size:14px;font-weight:700;box-shadow:0 4px 20px #160f0d70}
+.visitor-layer{position:absolute;inset:0;z-index:2;pointer-events:none}
+.library-visitor{position:absolute;display:block;width:76px;height:110px;padding:0;border:0;background:transparent;cursor:grab;touch-action:none;pointer-events:auto;transform:translate(-50%,-80%) scale(var(--visitor-scale,1));transform-origin:center bottom;filter:drop-shadow(0 7px 4px #160e0ba8)}
+.library-visitor:active{cursor:grabbing}.library-visitor:focus-visible{outline:2px solid #fff;outline-offset:3px;border-radius:10px}
+.visitor-shadow{position:absolute;width:58px;height:13px;left:9px;bottom:2px;border-radius:50%;background:#150e0b8a}
+.visitor-body{position:absolute;width:55px;height:59px;left:10px;bottom:10px;border-radius:45% 45% 35% 35%;background:var(--visitor-color);box-shadow:inset -9px -5px #0002,inset 8px 5px #fff5;animation:visitor-breathe 3s ease-in-out infinite}
+.visitor-head{position:absolute;width:67px;height:65px;left:4px;bottom:43px;border-radius:48% 48% 45% 45%;background:var(--visitor-color);box-shadow:inset -9px -7px #0002,inset 9px 6px #fff6;animation:visitor-breathe 3s ease-in-out infinite}
+.visitor-ear{position:absolute;bottom:88px;width:23px;height:35px;background:var(--visitor-color);box-shadow:inset -4px 0 #0002}.visitor-ear.left{left:8px;transform:rotate(-15deg)}.visitor-ear.right{right:8px;transform:rotate(15deg)}
+.library-visitor[data-animal="rabbit"] .visitor-ear{height:43px;bottom:89px;border-radius:60% 60% 32% 32%}
+.library-visitor[data-animal="bear"] .visitor-ear{width:24px;height:24px;bottom:92px;border-radius:50%}.library-visitor[data-animal="bear"] .visitor-ear.left{left:3px}.library-visitor[data-animal="bear"] .visitor-ear.right{right:3px}
+.library-visitor[data-animal="cat"] .visitor-ear{height:29px;bottom:91px;clip-path:polygon(50% 0,100% 100%,0 100%)}
+.visitor-foot{position:absolute;bottom:7px;width:23px;height:15px;background:var(--visitor-color);border-radius:50%;box-shadow:inset -4px -3px #0002}.visitor-foot.left{left:8px}.visitor-foot.right{right:8px}
+.visitor-tail{position:absolute;right:2px;bottom:23px;width:22px;height:22px;border-radius:50%;background:var(--visitor-color);box-shadow:inset -5px -4px #0002}
+.library-visitor[data-animal="cat"] .visitor-tail{right:-9px;bottom:24px;width:23px;height:34px;border:9px solid var(--visitor-color);border-left:0;background:transparent;border-radius:0 50% 50% 0;box-shadow:none}
+.visitor-status{position:absolute;z-index:3;bottom:4%;left:3%;color:#f3e7d4;font-size:12px;text-shadow:0 2px 8px #1e120e}
+@keyframes visitor-breathe{50%{transform:translateY(-3px)}}
+@media(max-width:700px){#home .library-scene{height:480px;background-size:auto 100%;background-position:center}.library-scene-copy{top:7%}.library-scene-copy h1{font-size:33px}.library-scene-copy p{line-height:1.5}.library-scene-action{bottom:5%}.visitor-status{bottom:17%;left:5%;right:5%;text-align:center;font-size:11px}}
+@media(prefers-reduced-motion:reduce){.visitor-body,.visitor-head{animation:none}}
 </style>
 </head>
 <body>
@@ -171,8 +194,12 @@ html[data-theme="light"] #themeToggle{background:#f0f0f0;color:#181818}
 </header>
 <main class="wrap">
 <section id="home">
- <div class="empty-feature-frame" aria-label="추후 애니메이션 영상이 들어갈 공간">
-</div>
+ <div class="library-scene" id="libraryScene" aria-label="넓은 도서관에 머무는 동물 방문객">
+  <div class="library-scene-copy"><span class="eyebrow">WJS PIANO LIBRARY</span><h1>음악이 머무는 도서관</h1><p>책장 사이에 나만의 작은 방문객이 머물고 있어요.</p></div>
+  <div class="visitor-layer" id="visitorLayer"></div>
+  <span class="visitor-status">동물을 드래그해 자리를 옮겨 보세요 · 이 브라우저에 저장됩니다</span>
+  <button class="library-scene-action" type="button" onclick="show('library')">악보방 들어가기 →</button>
+ </div>
  <div class="home-piano-area">
 <div class="keys-scroll" id="keysScroll">
 <div class="keyboard" id="keyboard">
@@ -305,6 +332,28 @@ for(let midi=60;midi<=72;midi++){let pitch=midi%12,black=blackSet.has(pitch),key
 function keyOn(e){const key=e.target.closest('.key');if(!key)return;key.classList.add('active');/* TODO: 이 건반의 고정 음성 파일을 연결 */ }
 function keyOff(){document.querySelectorAll('.key.active').forEach(k=>k.classList.remove('active'))}
 keyboard.addEventListener('pointerdown',keyOn);window.addEventListener('pointerup',keyOff);keyboard.addEventListener('pointercancel',keyOff);
+const visitorStorageKey='piano-library-visitor-v1';
+const visitorColors=['#e9b79d','#d8bde5','#e9d28f','#a8c9b4','#a9c8dc','#dfadae','#c8c4a7'];
+const visitorAnimals=['rabbit','bear','cat'];
+function saveVisitor(visitor){try{localStorage.setItem(visitorStorageKey,JSON.stringify(visitor))}catch(e){}}
+function loadVisitor(){
+  try{const saved=JSON.parse(localStorage.getItem(visitorStorageKey));if(saved&&visitorColors.includes(saved.color)&&visitorAnimals.includes(saved.animal)&&Number.isFinite(saved.x)&&Number.isFinite(saved.y))return saved}catch(e){}
+  const visitor={color:visitorColors[Math.floor(Math.random()*visitorColors.length)],animal:visitorAnimals[Math.floor(Math.random()*visitorAnimals.length)],x:35+Math.random()*30,y:74+Math.random()*8};
+  saveVisitor(visitor);return visitor;
+}
+const libraryScene=document.getElementById('libraryScene'),visitorLayer=document.getElementById('visitorLayer'),visitor=loadVisitor();
+const visitorElement=document.createElement('button');visitorElement.type='button';visitorElement.className='library-visitor';visitorElement.dataset.animal=visitor.animal;visitorElement.style.setProperty('--visitor-color',visitor.color);
+visitorElement.setAttribute('aria-label','내 동물 방문객. 드래그하거나 방향키로 이동');
+visitorElement.innerHTML='<span class="visitor-shadow"></span><span class="visitor-tail"></span><span class="visitor-foot left"></span><span class="visitor-foot right"></span><span class="visitor-body"></span><span class="visitor-ear left"></span><span class="visitor-ear right"></span><span class="visitor-head"></span>';
+visitorLayer.appendChild(visitorElement);
+function placeVisitor(){visitorElement.style.left=visitor.x+'%';visitorElement.style.top=visitor.y+'%';visitorElement.style.setProperty('--visitor-scale',String(.72+(visitor.y-70)*.02))}
+function moveVisitor(x,y){visitor.x=Math.max(9,Math.min(91,x));visitor.y=Math.max(61,Math.min(86,y));placeVisitor()}
+let visitorDrag=null;
+visitorElement.addEventListener('pointerdown',e=>{visitorDrag={x:e.clientX,y:e.clientY,startX:visitor.x,startY:visitor.y};visitorElement.setPointerCapture(e.pointerId);e.preventDefault()});
+visitorElement.addEventListener('pointermove',e=>{if(!visitorDrag)return;moveVisitor(visitorDrag.startX+(e.clientX-visitorDrag.x)*100/libraryScene.clientWidth,visitorDrag.startY+(e.clientY-visitorDrag.y)*100/libraryScene.clientHeight)});
+for(const event of ['pointerup','pointercancel'])visitorElement.addEventListener(event,()=>{if(visitorDrag)saveVisitor(visitor);visitorDrag=null});
+visitorElement.addEventListener('keydown',e=>{const steps={ArrowLeft:[-2,0],ArrowRight:[2,0],ArrowUp:[0,-2],ArrowDown:[0,2]};if(!steps[e.key])return;e.preventDefault();moveVisitor(visitor.x+steps[e.key][0],visitor.y+steps[e.key][1]);saveVisitor(visitor)});
+placeVisitor();
 let audioObjectUrl=null;const audioEl=document.getElementById('audioElement');
 function timeString(n){if(!Number.isFinite(n))n=0;return String(Math.floor(n/60)).padStart(2,'0')+':'+String(Math.floor(n%60)).padStart(2,'0')}
 function resetAudio(){audioEl.pause();audioEl.removeAttribute('src');audioEl.load();if(audioObjectUrl)URL.revokeObjectURL(audioObjectUrl);audioObjectUrl=null;document.getElementById('audioFile').value='';document.getElementById('audioPlay').disabled=true;document.getElementById('audioPlay').textContent='▶ 재생';document.getElementById('audioSeek').disabled=true;document.getElementById('audioSeek').value=0;document.getElementById('audioTime').textContent='00:00 / 00:00'}
