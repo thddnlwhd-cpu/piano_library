@@ -194,7 +194,6 @@ img{-webkit-user-drag:none;-webkit-touch-callout:none;user-select:none;-webkit-u
 <div class="wrap topin">
 <div class="brand custom-wordmark" onclick="show('home')">WJS</div>
 <nav class="nav">
-<button onclick="show('home')">홈</button>
 <button onclick="show('library')">악보방</button>
 <a class="social-link" id="youtubeLink" href="https://www.youtube.com/@%EC%9C%84%EC%A2%85%EC%86%A1/videos" target="_blank" rel="noopener noreferrer" aria-label="YouTube 채널 열기" title="YouTube">
  <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="1" y="4" width="22" height="16" rx="5" fill="#ff0033"/><path d="m10 8 6 4-6 4z" fill="#fff"/></svg>
@@ -265,26 +264,10 @@ img{-webkit-user-drag:none;-webkit-touch-callout:none;user-select:none;-webkit-u
 <button onclick="zoom(-.1)">－</button>
 <button onclick="zoom(.1)">＋</button>
 <button onclick="zoomReset()">원래 크기</button>
+<button id="shareButton" onclick="sharePage()">↗ 공유</button>
 </div>
 </div>
 <a id="instagramLink" class="instagram-link hidden" target="_blank" rel="noopener noreferrer">Instagram 연주 듣기 ↗</a>
-<div class="audio-bar">
-<button class="btn" id="audioPlay" onclick="toggleAudio()" disabled>▶ 재생</button>
-<span id="audioTime" class="small">00:00 / 00:00</span>
-<input id="audioSeek" type="range" min="0" max="100" value="0" oninput="seekAudio(this.value)" disabled aria-label="재생 위치">
-<label class="small">속도 <select id="audioRate" onchange="setRate(this.value)">
-<option value="0.75">0.75×</option>
-<option value="1" selected>1×</option>
-<option value="1.25">1.25×</option>
-<option value="1.5">1.5×</option>
-</select>
-</label>
-<label class="small">연주 음원 연결 <input id="audioFile" type="file" accept="audio/*" onchange="loadAudio(this)">
-</label>
-<audio id="audioElement" preload="metadata">
-</audio>
-</div>
-<p class="hint">현재는 재생용 음원이 없어 비활성화되어 있습니다. 직접 MP3 등을 선택하면 이 브라우저에서 재생할 수 있습니다. 악보 음표와 재생 위치 동기화는 MIDI/MusicXML 연동이 필요합니다.</p>
 <div class="viewer-layout">
 <div>
 <div id="scorePage" class="score-page">
@@ -325,15 +308,27 @@ const instagramLinks={s1:"",s2:"",s3:"",s4:"",s5:""};
 window.addEventListener("DOMContentLoaded",()=>{const cover=document.getElementById("chiikawaCover");if(cover)cover.src=chiikawaPoster;});
 let selectedCategory='치이카와 [ちいかわ]',selectedScore=null,page=1,scale=1;
 const sections=['home','library','seriesPage','categoryPage','viewer'];
-function show(id){sections.forEach(s=>document.getElementById(s).classList.toggle('hidden',s!==id));if(id==='library')renderCategories();window.scrollTo(0,0)}
+let currentSection='home',routeSyncEnabled=false;
+function currentRoute(){
+ if(currentSection==='viewer'&&selectedScore)return `#score/${selectedScore.id}/${page}`;
+ if(currentSection==='categoryPage')return '#category';
+ if(currentSection==='seriesPage')return '#series';
+ return `#${currentSection}`;
+}
+function updateRoute(replace=false){
+ if(!routeSyncEnabled)return;
+ const route=currentRoute();
+ if(location.hash!==route)history[replace?'replaceState':'pushState'](null,'',route);
+}
+function show(id){currentSection=id;sections.forEach(s=>document.getElementById(s).classList.toggle('hidden',s!==id));if(id==='library')renderCategories();updateRoute();window.scrollTo(0,0)}
 function renderCategories(){let q=document.getElementById('search').value.trim().toLowerCase();let box=document.getElementById('categories'),results=document.getElementById('searchResults');box.innerHTML='';results.innerHTML='';if(q){box.classList.add('hidden');let found=catalog.filter(s=>(s.title+' '+s.composer+' '+s.category).toLowerCase().includes(q));results.innerHTML='<h2>검색 결과</h2>';let list=document.createElement('div');list.className='list score-grid';found.forEach(s=>list.appendChild(scoreButton(s)));results.appendChild(list);if(!found.length)results.innerHTML+='<div class="empty">검색 결과가 없습니다.</div>';return}box.classList.remove('hidden');categoryInfo.forEach(([name,ico,en])=>{let b=document.createElement('button');b.className='category';b.innerHTML=`<span class="ico">${ico}</span>
 <strong>${name}</strong>
 <span>${en} · ${catalog.filter(s=>s.category===name).length}곡</span>`;b.onclick=()=>show('seriesPage');box.appendChild(b)})}
 function scoreButton(s){let b=document.createElement('button');b.className='score-card';const cover=document.createElement('div');cover.className='score-cover';const poster=document.createElement('img');poster.className='score-poster'+(s.id==='s1'?' usagi-poster':((s.id==='s6'||s.id==='s7')?' fill-poster':''));poster.src=s.id==='s7'?s.poster:(s.id==='s6'?'assets/embedded-2b6eadefbf44.webp':s.id==='s1'?'assets/embedded-11fdf087c813.webp':chiikawaPoster);poster.alt=s.id==='s6'?'Kyou no hi wa sayounara 포스터':s.id==='s1'?'우사기 랩 포스터':s.id==='s7'?'분홍 꼬리의 귀여운 슈팅스타 썸네일':'치이카와 포스터';poster.loading='lazy';const img=document.createElement('img');img.className='score-mini';img.src=s.id==='s7'?'assets/chiikawa-black-star-1.webp':s.images[0];img.alt=s.title+' 악보 미리보기';img.loading='lazy';cover.append(poster,img);const info=document.createElement('div');info.className='score-meta';const title=document.createElement('strong');title.textContent=s.title;const desc=document.createElement('small');desc.textContent=s.pages+'페이지 · 피아노 편곡';info.append(title,desc);b.append(cover,info);b.onclick=()=>openScore(s.id);return b}
 function openCategory(name){selectedCategory=name;document.getElementById('categoryTitle').textContent=name;let box=document.getElementById('categoryScores');box.innerHTML='';catalog.forEach(s=>box.appendChild(scoreButton(s)));if(!box.children.length)box.innerHTML='<div class="empty">아직 등록된 악보가 없습니다.</div>';show('categoryPage')}
-function openScore(id){selectedScore=catalog.find(s=>s.id===id);selectedCategory=selectedScore.category;page=1;scale=1;document.getElementById('viewerTitle').textContent=selectedScore.title;document.getElementById('viewerComposer').textContent=selectedScore.composer;document.getElementById('viewerBack').onclick=()=>openCategory('치이카와 [ちいかわ]');const instagramLink=document.getElementById('instagramLink');const instagramUrl=instagramLinks[selectedScore.id];instagramLink.classList.toggle('hidden',!instagramUrl);if(instagramUrl)instagramLink.href=instagramUrl;resetAudio();updatePage();show('viewer')}
+function openScore(id){selectedScore=catalog.find(s=>s.id===id);selectedCategory=selectedScore.category;page=1;scale=1;document.getElementById('viewerTitle').textContent=selectedScore.title;document.getElementById('viewerComposer').textContent=selectedScore.composer;document.getElementById('viewerBack').onclick=()=>openCategory('치이카와 [ちいかわ]');const instagramLink=document.getElementById('instagramLink');const instagramUrl=instagramLinks[selectedScore.id];instagramLink.classList.toggle('hidden',!instagramUrl);if(instagramUrl)instagramLink.href=instagramUrl;updatePage();show('viewer')}
 function updatePage(){document.getElementById('pageNum').textContent=page+' / '+selectedScore.pages;document.getElementById('scoreImage').src=selectedScore.images[page-1];document.getElementById('scorePage').style.width=(100*scale)+'%';}
-function turn(n){page=Math.max(1,Math.min(selectedScore.pages,page+n));updatePage()}
+function turn(n){page=Math.max(1,Math.min(selectedScore.pages,page+n));updatePage();updateRoute(true)}
 const scoreModal=document.getElementById('scoreModal'),scoreModalTrack=document.getElementById('scoreModalTrack');
 function updateModalControls(){
  document.getElementById('scoreModalCount').textContent=`${page} / ${selectedScore.pages}`;
@@ -361,7 +356,7 @@ function turnModal(n){
 scoreModalTrack.addEventListener('scroll',()=>{
  if(scoreModal.hidden||!selectedScore)return;
  const current=Math.max(1,Math.min(selectedScore.pages,Math.round(scoreModalTrack.scrollLeft/scoreModalTrack.clientWidth)+1));
- if(current!==page){page=current;updatePage()}
+ if(current!==page){page=current;updatePage();updateRoute(true)}
  updateModalControls();
 },{passive:true});
 window.addEventListener('keydown',e=>{
@@ -378,16 +373,33 @@ for(let midi=60;midi<=72;midi++){let pitch=midi%12,black=blackSet.has(pitch),key
 function keyOn(e){const key=e.target.closest('.key');if(!key)return;key.classList.add('active');/* TODO: 이 건반의 고정 음성 파일을 연결 */ }
 function keyOff(){document.querySelectorAll('.key.active').forEach(k=>k.classList.remove('active'))}
 keyboard.addEventListener('pointerdown',keyOn);window.addEventListener('pointerup',keyOff);keyboard.addEventListener('pointercancel',keyOff);
-let audioObjectUrl=null;const audioEl=document.getElementById('audioElement');
-function timeString(n){if(!Number.isFinite(n))n=0;return String(Math.floor(n/60)).padStart(2,'0')+':'+String(Math.floor(n%60)).padStart(2,'0')}
-function resetAudio(){audioEl.pause();audioEl.removeAttribute('src');audioEl.load();if(audioObjectUrl)URL.revokeObjectURL(audioObjectUrl);audioObjectUrl=null;document.getElementById('audioFile').value='';document.getElementById('audioPlay').disabled=true;document.getElementById('audioPlay').textContent='▶ 재생';document.getElementById('audioSeek').disabled=true;document.getElementById('audioSeek').value=0;document.getElementById('audioTime').textContent='00:00 / 00:00'}
-function loadAudio(input){if(!input.files.length)return;audioEl.pause();if(audioObjectUrl)URL.revokeObjectURL(audioObjectUrl);audioObjectUrl=URL.createObjectURL(input.files[0]);audioEl.src=audioObjectUrl;audioEl.load();document.getElementById('audioPlay').disabled=false;document.getElementById('audioSeek').disabled=false;setRate(document.getElementById('audioRate').value)}
-function toggleAudio(){if(!audioEl.src)return;if(audioEl.paused){audioEl.play().catch(()=>alert('이 파일을 브라우저에서 재생할 수 없습니다.'))}else audioEl.pause()}
-function seekAudio(v){if(Number.isFinite(audioEl.duration)&&audioEl.duration>0)audioEl.currentTime=audioEl.duration*Number(v)/100}
-function setRate(v){audioEl.playbackRate=Number(v)}
-audioEl.addEventListener('timeupdate',()=>{document.getElementById('audioTime').textContent=timeString(audioEl.currentTime)+' / '+timeString(audioEl.duration);if(audioEl.duration)document.getElementById('audioSeek').value=100*audioEl.currentTime/audioEl.duration});
-audioEl.addEventListener('play',()=>document.getElementById('audioPlay').textContent='Ⅱ 일시정지');audioEl.addEventListener('pause',()=>document.getElementById('audioPlay').textContent='▶ 재생');
+function applyRoute(){
+ routeSyncEnabled=false;
+ if(!scoreModal.hidden)closeScoreModal();
+ const [kind,id,rawPage]=location.hash.slice(1).split('/');
+ if(kind==='score'&&catalog.some(score=>score.id===id)){
+  openScore(id);
+  page=Math.max(1,Math.min(selectedScore.pages,Number(rawPage)||1));
+  updatePage();
+ }else if(kind==='category')openCategory('치이카와 [ちいかわ]');
+ else if(kind==='series')show('seriesPage');
+ else if(kind==='library')show('library');
+ else show('home');
+ routeSyncEnabled=true;
+}
+async function sharePage(){
+ const url=location.href;
+ try{
+  if(navigator.share){await navigator.share({title:selectedScore?.title||document.title,url});return}
+  await navigator.clipboard.writeText(url);
+  const button=document.getElementById('shareButton');button.textContent='✓ 링크 복사됨';
+  window.setTimeout(()=>{button.textContent='↗ 공유'},2200);
+ }catch(error){if(error.name!=='AbortError')window.prompt('이 주소를 복사하세요',url)}
+}
+window.addEventListener('popstate',applyRoute);
+window.addEventListener('hashchange',applyRoute);
 renderCategories();
+applyRoute();
 
 function applyTheme(mode){document.documentElement.setAttribute('data-theme',mode);document.getElementById('themeToggle').textContent=mode==='dark'?'☾':'☀';try{localStorage.setItem('piano-library-theme',mode)}catch(e){}}
 function toggleTheme(){applyTheme(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark')}
