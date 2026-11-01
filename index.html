@@ -140,9 +140,14 @@ html[data-theme="light"] #themeToggle{background:#f0f0f0;color:#181818}
 @media(max-width:730px){#home .home-piano-area{width:100%}#home .keys-scroll{overflow-x:auto;padding-bottom:8px}#home .keyboard{margin:0;width:672px}.scene-folder{font-size:10px}.folder-shape{font-size:32px}.scene-hint{font-size:8px}}
 @media(prefers-reduced-motion:reduce){.scene-cloud,.scene-moon,.scene-stars{animation:none}}
 
-:root,[data-theme="light"]{--bg:#F5F0DF;--ink:#302B21;--muted:#776D5C;--line:#E4DAC4;--surface:#FFF9E9;--soft:#EEE5CE;--accent:#766047;--adbg:#F0E8D5}
-[data-theme="light"] body{background:#F5F0DF;color:#302B21}
-[data-theme="light"] .top{background:#F8F2E5;border-color:#E4DAC4}
+:root,[data-theme="light"]{--bg:#fff;--ink:#171717;--muted:#555;--line:#c9c9c9;--surface:#fff;--soft:#f2f2f2;--accent:#222;--adbg:#f4f4f4;--adline:#bdbdbd;--adink:#555;--shadow:0 5px 20px rgba(0,0,0,.09)}
+[data-theme="light"] body{background:#fff;color:#171717}
+[data-theme="light"] .top{background:#fff;border-color:#bdbdbd}
+[data-theme="light"] .score-card,[data-theme="light"] .category,[data-theme="light"] .intro,[data-theme="light"] .piano-panel{border-color:#bdbdbd}
+[data-theme="light"] .score-meta strong,[data-theme="light"] .page-title,[data-theme="light"] .section h2{color:#111}
+[data-theme="light"] .search{border-color:#999}
+[data-theme="light"] .score-cover{border-bottom:2px solid #999}
+[data-theme="light"] .btn.alt{border-color:#555;color:#222}
 .empty-feature-frame{width:min(100%,1000px);aspect-ratio:1000/665;margin:40px auto 0;background:transparent;border:1px solid var(--line)}
 .custom-wordmark{font-family:"Comic Sans MS","Segoe Print","Bradley Hand",cursive;font-size:22px;font-weight:900;font-style:italic;letter-spacing:-1px;transform:rotate(-2deg);text-shadow:.5px .5px 0 currentColor}
 #home .home-piano-area{margin-top:30px}
@@ -268,7 +273,7 @@ html[data-theme="light"] #themeToggle{background:#f0f0f0;color:#181818}
 <script>
 // 데모 데이터: 실제 보유 악보로 교체하세요.
 const chiikawaPoster="assets/embedded-9016c9009d9c.webp";
-const catalog=[{"id":"s6","category":"애니 OST","title":"Kyou no hi wa sayounara","composer":"극장판 치이카와 OST · 오늘 하루 안녕 (Hachiware Version)","pages":2,"images":["assets/embedded-6c9d65017a9d.webp","assets/embedded-4bd9a2be5f3b.webp"]},{"id":"s1","category":"애니 OST","title":"Usagi Rap","composer":"치이카와 [ちいかわ] · Piano Arrangement","pages":1,"images":["assets/embedded-64e07efe2b7a.webp"]},{"id":"s2","category":"애니 OST","title":"くつずれ (쿠츠즈레) · Short Ver.","composer":"치이카와 [ちいかわ] · Piano Arrangement","pages":2,"images":["assets/embedded-6e4ee8b1dfe0.webp","assets/embedded-4b3695f97bc6.webp"]},{"id":"s3","category":"애니 OST","title":"机さする (츠쿠에 사스루) · Short Ver.","composer":"치이카와 [ちいかわ] · Piano Arrangement","pages":2,"images":["assets/embedded-ada0b0b35c7e.webp","assets/embedded-9796c6ea714d.webp"]},{"id":"s4","category":"애니 OST","title":"Shima no Uta · Short Ver.","composer":"치이카와 [ちいかわ] · Piano Arrangement","pages":2,"images":["assets/embedded-3902543dc561.webp","assets/embedded-b795ceeb21fc.webp"]},{"id":"s5","category":"애니 OST","title":"Shima no Uta · Siren Ver.","composer":"치이카와 [ちいかわ] · Piano Arrangement","pages":3,"images":["assets/embedded-4f3cfa22f30d.webp","assets/embedded-229b6dac678a.webp","assets/embedded-d1a26381017c.webp"]},{"id":"s7","category":"애니 OST","title":"시간의 나그네 (검은 별똥별)","composer":"치이카와 OST · Arr by. WJSONG","pages":2,"images":["assets/chiikawa-black-star-1.webp","assets/chiikawa-black-star-2.webp"],"poster":"assets/chiikawa-pink-shooting-star.webp"}];
+const catalog=[{"id":"s7","category":"애니 OST","title":"시간의 나그네 (검은 별똥별)","composer":"치이카와 OST · Arr by. WJSONG","pages":2,"images":["assets/chiikawa-black-star-1.webp","assets/chiikawa-black-star-2.webp"],"poster":"assets/chiikawa-pink-shooting-star.webp"},{"id":"s6","category":"애니 OST","title":"Kyou no hi wa sayounara","composer":"극장판 치이카와 OST · 오늘 하루 안녕 (Hachiware Version)","pages":2,"images":["assets/embedded-6c9d65017a9d.webp","assets/embedded-4bd9a2be5f3b.webp"]},{"id":"s1","category":"애니 OST","title":"Usagi Rap","composer":"치이카와 [ちいかわ] · Piano Arrangement","pages":1,"images":["assets/embedded-64e07efe2b7a.webp"]},{"id":"s2","category":"애니 OST","title":"くつずれ (쿠츠즈레) · Short Ver.","composer":"치이카와 [ちいかわ] · Piano Arrangement","pages":2,"images":["assets/embedded-6e4ee8b1dfe0.webp","assets/embedded-4b3695f97bc6.webp"]},{"id":"s3","category":"애니 OST","title":"机さする (츠쿠에 사스루) · Short Ver.","composer":"치이카와 [ちいかわ] · Piano Arrangement","pages":2,"images":["assets/embedded-ada0b0b35c7e.webp","assets/embedded-9796c6ea714d.webp"]},{"id":"s4","category":"애니 OST","title":"Shima no Uta · Short Ver.","composer":"치이카와 [ちいかわ] · Piano Arrangement","pages":2,"images":["assets/embedded-3902543dc561.webp","assets/embedded-b795ceeb21fc.webp"]},{"id":"s5","category":"애니 OST","title":"Shima no Uta · Siren Ver.","composer":"치이카와 [ちいかわ] · Piano Arrangement","pages":3,"images":["assets/embedded-4f3cfa22f30d.webp","assets/embedded-229b6dac678a.webp","assets/embedded-d1a26381017c.webp"]}];
 const categoryInfo=[["애니 OST","♫","Animation OST"]];
 // 각 곡의 Instagram 릴스/쇼츠 주소를 아래에 넣으면 악보 화면에 버튼이 자동 표시됩니다.
 const instagramLinks={s1:"",s2:"",s3:"",s4:"",s5:""};
