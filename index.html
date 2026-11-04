@@ -186,6 +186,16 @@ html[data-theme="light"] #themeToggle{background:#f0f0f0;color:#181818}
 #themeToggle{margin-left:0}
 img{-webkit-user-drag:none;-webkit-touch-callout:none;user-select:none;-webkit-user-select:none}
 @media(max-width:750px){.nav{gap:10px}.nav>button:not(#themeToggle){height:34px}.nav .social-link{width:30px;height:30px;min-width:30px}.nav .social-link svg{width:30px;height:30px}}
+.site-ad[hidden]{display:none}
+.site-ad{position:relative;min-width:0}
+.site-ad-label{display:block;color:var(--muted);font-size:10px;letter-spacing:.08em;margin-bottom:5px}
+.site-ad-top{width:min(calc(100% - 40px),1100px);min-height:105px;margin:18px auto 0}
+.site-ad-top .adsbygoogle{min-height:90px}
+.site-ad-side{display:none}
+.site-ad.is-preview{display:flex;align-items:center;justify-content:center;min-height:105px;border:1px dashed var(--line);border-radius:8px;background:var(--surface);color:var(--muted);font-size:12px}
+.site-ad.is-preview .site-ad-label{position:absolute;top:10px;left:12px}
+.site-ad-side.is-preview{display:none}
+@media(min-width:1560px) and (min-height:780px){.site-ad-side:not([hidden]){display:block;position:fixed;top:130px;right:max(10px,calc((100vw - 1520px)/2));width:180px;height:600px;z-index:5}.site-ad-side.is-preview{display:flex;min-height:0}}
 
 </style>
 </head>
@@ -205,6 +215,8 @@ img{-webkit-user-drag:none;-webkit-touch-callout:none;user-select:none;-webkit-u
 </nav>
 </div>
 </header>
+<div class="site-ad site-ad-top" data-ad-slot="" aria-label="상단 광고" hidden><span class="site-ad-label">광고</span></div>
+<aside class="site-ad site-ad-side" data-ad-slot="" aria-label="측면 광고" hidden><span class="site-ad-label">광고</span></aside>
 <main class="wrap">
 <section id="home">
  <div class="library-scene" id="libraryScene" aria-label="넓은 도서관에서 움직이는 입체 동물">
@@ -407,5 +419,6 @@ document.addEventListener('contextmenu',event=>event.preventDefault());
 document.addEventListener('dragstart',event=>{if(event.target instanceof HTMLImageElement)event.preventDefault()});
 </script>
 <script type="module" src="assets/library-visitor-3d.js"></script>
+<script src="assets/ads.js" defer></script>
 </body>
 </html>
